@@ -59,5 +59,10 @@ class OptionOperationImpl extends OptionOperation {
     } yield v
 
   def optFunc(a: Option[Int], b: Option[Int])(
-      f: (Int, Int) => Int): Option[Int] = ???
+      f: (Int, Int) => Int): Option[Int] =
+    for {
+      _a <- a
+      _b <- b
+    } yield f(_a, _b)
+
 }

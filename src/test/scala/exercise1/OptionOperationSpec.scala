@@ -90,4 +90,26 @@ class OptionOperationSpec extends Specification {
 
   }
 
+  "optFunc" should {
+
+    "両方Someなら関数を当てる（１）" in {
+      val plusFunc = (i: Int, j: Int) => i + j
+      val ret = impl.optFunc(10.some, 2.some)(plusFunc)
+      ret must beSome(12)
+    }
+    "両方Someなら関数を当てる（２）" in {
+      val ret = impl.optFunc(10.some, 2.some)(_ * _)
+      ret must beSome(20)
+    }
+    "NoneがあったらNone(1)" in {
+      val ret = impl.optFunc(None, 2.some)(_ + _)
+      ret must beNone
+    }
+    "NoneがあったらNone(2)" in {
+      val ret = impl.optFunc(1.some, None)(_ + _)
+      ret must beNone
+    }
+
+  }
+
 }
