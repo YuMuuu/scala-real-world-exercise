@@ -65,4 +65,29 @@ class OptionOperationSpec extends Specification {
 
   }
 
+  "optDiv" should {
+
+    "両方Someなら割る" in {
+      val ret = impl.optDiv(10.some, 2.some)
+      ret must beSome(5)
+    }
+    "両方Someなら割る, 0" in {
+      val ret = impl.optDiv(0.some, 10.some)
+      ret must beSome(0)
+    }
+    "両方Someなら割る, 0 div はNone" in {
+      val ret = impl.optDiv(10.some, 0.some)
+      ret must beNone
+    }
+    "NoneがあったらNone(1)" in {
+      val ret = impl.optDiv(None, 2.some)
+      ret must beNone
+    }
+    "NoneがあったらNone(2)" in {
+      val ret = impl.optDiv(1.some, None)
+      ret must beNone
+    }
+
+  }
+
 }

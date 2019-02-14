@@ -43,7 +43,21 @@ class OptionOperationImpl extends OptionOperation {
       case v            => v.toString
     }
 
-  def optDiv(a: Option[Int], b: Option[Int]): Option[Int] = ???
+  def optDiv(a: Option[Int], b: Option[Int]): Option[Int] =
+    for {
+      _a <- a
+      _b <- b
+      if _b > 0
+    } yield _a / _b
+
+  import scala.util.control.Exception._
+  def optDiv2(a: Option[Int], b: Option[Int]): Option[Int] =
+    for {
+      _a <- a
+      _b <- b
+      v <- allCatch opt { _a / _b }
+    } yield v
+
   def optFunc(a: Option[Int], b: Option[Int])(
       f: (Int, Int) => Int): Option[Int] = ???
 }
