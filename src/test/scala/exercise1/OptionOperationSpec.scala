@@ -112,4 +112,39 @@ class OptionOperationSpec extends Specification {
 
   }
 
+  "optFunc2" should {
+
+    import scala.util.control.Exception._
+
+    val d2i: Double => Option[Int] = d =>
+      if (d > 0) d.toInt.some else None
+    val s2i: String => Option[Int] = s =>
+      allCatch opt {
+        s.toInt
+    }
+    val `+`: (Int, Int) => Int = _ + _
+
+    "aにf1, bにf2を当ててオペレーションする" in {
+      val ret = impl.optFunc2(10.0.some, "2".some)(d2i, s2i, `+`)
+      ret must beSome(12)
+    }
+    "aにf1, bにf2を当てる：f1の結果がNoneならNone" in {
+      val ret = impl.optFunc2((-10.0).some, "2".some)(d2i, s2i, `+`)
+      ret must beNone
+    }
+    "aにf1, bにf2を当てる：f2の結果がNoneならNone" in {
+      val ret = impl.optFunc2(10.0.some, "a".some)(d2i, s2i, `+`)
+      ret must beNone
+    }
+    "NoneがあったらNone(1)" in {
+      val ret = impl.optFunc2(None, "2".some)(d2i, s2i, `+`)
+      ret must beNone
+    }
+    "NoneがあったらNone(2)" in {
+      val ret = impl.optFunc2(10.0.some, None)(d2i, s2i, `+`)
+      ret must beNone
+    }
+
+  }
+
 }

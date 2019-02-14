@@ -65,4 +65,15 @@ class OptionOperationImpl extends OptionOperation {
       _b <- b
     } yield f(_a, _b)
 
+  override def optFunc2(a: Option[Double], b: Option[String])(
+      f1: Double => Option[Int],
+      f2: String => Option[Int],
+      op: (Int, Int) => Int): Option[Int] =
+    for {
+      _a <- a
+      ai <- f1(_a)
+      _b <- b
+      bi <- f2(_b)
+    } yield op(ai, bi)
+
 }
