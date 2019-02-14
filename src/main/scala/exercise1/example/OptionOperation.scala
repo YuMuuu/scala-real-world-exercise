@@ -26,7 +26,23 @@ class OptionOperationImpl extends OptionOperation {
   def optPlusGtTen3(a: Option[Int], b: Option[Int]): Option[Int] =
     optPlus(a, b).filter(_ >= 10)
 
-  def optPlusAsString(a: Option[Int], b: Option[Int]): Option[String] = ???
+  def optPlusGeTenAsTwiceString(a: Option[Int],
+                                b: Option[Int]): Option[String] =
+    (for {
+      _a <- a
+      _b <- b
+      v = _a + _b
+    } yield {
+      if (v >= 10) v * 2 else v
+    }).map { _.toString }
+
+  def optPlusGeTenAsTwiceString2(a: Option[Int],
+                                 b: Option[Int]): Option[String] =
+    optPlus(a, b).collect {
+      case v if v >= 10 => (v * 2).toString
+      case v            => v.toString
+    }
+
   def optDiv(a: Option[Int], b: Option[Int]): Option[Int] = ???
   def optFunc(a: Option[Int], b: Option[Int])(
       f: (Int, Int) => Int): Option[Int] = ???

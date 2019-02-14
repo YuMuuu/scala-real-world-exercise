@@ -43,4 +43,26 @@ class OptionOperationSpec extends Specification {
     }
 
   }
+
+  "optPlusGeTenAsTwiceString" should {
+
+    "両方Someなら足す, 10以上なら2倍String" in {
+      val ret = impl.optPlusGeTenAsTwiceString(1.some, 9.some)
+      ret must beSome("20")
+    }
+    "両方Someなら足す, 10未満ならそのままString" in {
+      val ret = impl.optPlusGeTenAsTwiceString(1.some, 8.some)
+      ret must beSome("9")
+    }
+    "NoneがあったらNone(1)" in {
+      val ret = impl.optPlusGeTenAsTwiceString(None, 2.some)
+      ret must beNone
+    }
+    "NoneがあったらNone(2)" in {
+      val ret = impl.optPlusGeTenAsTwiceString(1.some, None)
+      ret must beNone
+    }
+
+  }
+
 }
